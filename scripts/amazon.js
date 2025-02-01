@@ -79,6 +79,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
         // console.log(productName)
 
         let matchingItem;
+       
         productId;
         // checking if product is altredy exisimg in the cart
         cart.forEach((item)=>{
@@ -96,7 +97,13 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
             });
         }
 
-        
+        let totalquantity = 0;
+        cart.forEach((item)=>{
+            totalquantity+=item.quantity;
+        });
+
+        document.querySelector('.js-cart-quantity').innerHTML = totalquantity;
+        console.log(totalquantity);
         
         console.log(cart);
     });

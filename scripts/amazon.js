@@ -25,6 +25,8 @@
 //     }
 // ];
 
+cart = [];
+
 // now all the products come for the data folder
 let productHTML = '';
 
@@ -52,9 +54,12 @@ products.forEach(product => {
                 <img src="images/icons/checkmark.png" alt="Added to Cart">
                 Added
             </div>
-            <button class="add-to-cart-button button-primary">Add to Cart</button>
+            <button class="add-to-cart-button button-primary 
+            js-add-to-cart"  
+            data-product-name="${product.name}">Add to Cart</button>
         </div>
-    `;
+    `;  //added attribute data-product-name
+    // first we attach the product name to the buttob
 });
 
 const productsGrid = document.querySelector('.js-products-grid');
@@ -62,4 +67,37 @@ if (productsGrid) {
     productsGrid.innerHTML = productHTML;
 } else {
     console.error('Element with class .js-products-grid not found');
+    
 }
+
+document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
+    button.addEventListener('click',()=>{
+        // console.log('Added to cart')
+        // used to load the data from the attribute
+        // console.log(button.dataset) // this displays all the data attributes
+        const productName = button.dataset.productName; // this is used to get the name of the product
+        // console.log(productName)
+
+        let matchingItem;
+        productName;
+        // checking if product is altredy exisimg in the cart
+        cart.forEach((item)=>{
+            if(productName==item.productName){
+               matchingItem=item;
+            }
+        });
+        if(matchingItem){
+            matchingItem.quantity+=1;
+        }else{
+            cart.push({
+                productName: productName,
+                quantity: 1
+            
+            });
+        }
+
+        
+        
+        console.log(cart);
+    });
+});

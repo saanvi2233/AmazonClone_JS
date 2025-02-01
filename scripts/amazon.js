@@ -56,7 +56,7 @@ products.forEach(product => {
             </div>
             <button class="add-to-cart-button button-primary 
             js-add-to-cart"  
-            data-product-name="${product.name}">Add to Cart</button>
+            data-product-id="${product.id}">Add to Cart</button>
         </div>
     `;  //added attribute data-product-name
     // first we attach the product name to the buttob
@@ -75,14 +75,14 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
         // console.log('Added to cart')
         // used to load the data from the attribute
         // console.log(button.dataset) // this displays all the data attributes
-        const productName = button.dataset.productName; // this is used to get the name of the product
+        const productId = button.dataset.productId; // this is used to get the name of the product
         // console.log(productName)
 
         let matchingItem;
-        productName;
+        productId;
         // checking if product is altredy exisimg in the cart
         cart.forEach((item)=>{
-            if(productName==item.productName){
+            if(productId==item.productId){
                matchingItem=item;
             }
         });
@@ -90,7 +90,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
             matchingItem.quantity+=1;
         }else{
             cart.push({
-                productName: productName,
+                productId: productId,
                 quantity: 1
             
             });

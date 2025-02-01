@@ -28,6 +28,7 @@
 // cart = [];
 import { cart, addToCart,updateCartQuantity,changeAddToCartButton } from '../data/cart.js'; 
 import { products } from '../data/products.js';
+import { formatCurrency } from './utils/money.js';
 
 // Generate product HTML dynamically
 let productHTML = '';
@@ -45,7 +46,7 @@ products.forEach(product => {
                 <img class="product-rating-stars" src="${ratingImage}" alt="${product.rating.stars} stars">
                 <div class="product-rating-count link-primary">${product.rating.count} reviews</div>
             </div>
-            <div class="product-price">$${(product.priceCents / 100).toFixed(2)}</div>
+            <div class="product-price">${formatCurrency(product.priceCents)}</div>
             <div class="product-quantity-container">
                 <select class="js-quantity-selector" data-product-id="${product.id}">
                     ${Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('')}

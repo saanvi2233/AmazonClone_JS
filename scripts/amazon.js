@@ -25,7 +25,8 @@
 //     }
 // ];
 
-cart = [];
+// cart = [];
+import { cart } from '../data/cart.js'; // this is used to import the cart from the cart.js file
 
 // now all the products come for the data folder
 let productHTML = '';

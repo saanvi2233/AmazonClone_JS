@@ -154,3 +154,8 @@
   padding: 8px;
   border-radius: 50px;
 }
+.added-to-cart-button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  cursor: default;
+}

@@ -50,13 +50,13 @@ products.forEach(product => {
                 </select>
             </div>
             <div class="product-spacer"></div>
-            <div class="added-to-cart">
+            <div class="added-to-cart js-added-to-cart" style="display: none;">
                 <img src="images/icons/checkmark.png" alt="Added to Cart">
                 Added
             </div>
             <button class="add-to-cart-button button-primary 
             js-add-to-cart"  
-            data-product-id="${product.id}">Add to Cart</button>
+            data-product-id="${product.id} ">Add to Cart</button>
         </div>
     `;  //added attribute data-product-name
     // first we attach the product name to the buttob
@@ -69,6 +69,8 @@ if (productsGrid) {
     console.error('Element with class .js-products-grid not found');
     
 }
+
+
 
 document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
     button.addEventListener('click',()=>{
@@ -106,5 +108,37 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
         console.log(totalquantity);
         
         console.log(cart);
+
+
+       // Change button text to "Added"
+       button.innerHTML = "Added";
+       button.classList.add("added-to-cart-button"); // Add a class for styling
+
+       // Display the "Added" message
+       const productContainer = button.closest('.product-container');
+       productContainer.querySelector('.js-added-to-cart').style.display = 'block';
+
+    //    Revert the button text to "Add to Cart" after 2 seconds
+    setTimeout(()=>{
+        button.innerHTML="Add to Cart";
+        button.classList.remove("added-to-cart-button");
+        productContainer.querySelector('.js-added-to-cart').style.display = 'none';
+    },1000);
     });
 });
+
+// document.querySelector('.js-').addEventListener('click',(event)=>{
+
+// })
+
+
+// function updateAddToCartButton(){
+//     const buttonE= document.querySelector('.js-add-to-cart');
+//     if(buttonE.innerHTML==='Add to cart'){
+//         buttonE.innerHTML='Added';
+//         buttonE.classList.add('added-to-cart');
+//     }else{
+//         buttonE.innerHTML='Add to cart';
+//         buttonE.classList.remove('added-to-cart');
+//     }
+

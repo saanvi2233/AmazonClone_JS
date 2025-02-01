@@ -26,9 +26,10 @@
 // ];
 
 // cart = [];
-import { cart } from '../data/cart.js'; // this is used to import the cart from the cart.js file
+import { cart, addToCart,updateCartQuantity,changeAddToCartButton } from '../data/cart.js'; 
+import { products } from '../data/products.js';
 
-// now all the products come for the data folder
+// Generate product HTML dynamically
 let productHTML = '';
 
 products.forEach(product => {
@@ -46,7 +47,7 @@ products.forEach(product => {
             </div>
             <div class="product-price">$${(product.priceCents / 100).toFixed(2)}</div>
             <div class="product-quantity-container">
-                <select>
+                <select class="js-quantity-selector" data-product-id="${product.id}">
                     ${Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('')}
                 </select>
             </div>
@@ -55,91 +56,33 @@ products.forEach(product => {
                 <img src="images/icons/checkmark.png" alt="Added to Cart">
                 Added
             </div>
-            <button class="add-to-cart-button button-primary 
-            js-add-to-cart"  
-            data-product-id="${product.id} ">Add to Cart</button>
+            <button class="add-to-cart-button button-primary js-add-to-cart"  
+                data-product-id="${product.id}">
+                Add to Cart
+            </button>
         </div>
-    `;  //added attribute data-product-name
-    // first we attach the product name to the buttob
+    `;
 });
 
+// Inject products into the page
 const productsGrid = document.querySelector('.js-products-grid');
 if (productsGrid) {
     productsGrid.innerHTML = productHTML;
 } else {
     console.error('Element with class .js-products-grid not found');
-    
 }
 
 
 
-document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
-    button.addEventListener('click',()=>{
-        // console.log('Added to cart')
-        // used to load the data from the attribute
-        // console.log(button.dataset) // this displays all the data attributes
-        const productId = button.dataset.productId; // this is used to get the name of the product
-        // console.log(productName)
+// Add event listeners to all "Add to Cart" buttons
+document.querySelectorAll('.js-add-to-cart').forEach(button => {
+    button.addEventListener('click', () => {
+        const productId = button.dataset.productId; 
+        const quantitySelector = document.querySelector(`.js-quantity-selector[data-product-id="${productId}"]`);
+        const selectedQuantity = Number(quantitySelector.value);
 
-        let matchingItem;
-       
-        productId;
-        // checking if product is altredy exisimg in the cart
-        cart.forEach((item)=>{
-            if(productId==item.productId){
-               matchingItem=item;
-            }
-        });
-        if(matchingItem){
-            matchingItem.quantity+=1;
-        }else{
-            cart.push({
-                productId: productId,
-                quantity: 1
-            
-            });
-        }
-
-        let totalquantity = 0;
-        cart.forEach((item)=>{
-            totalquantity+=item.quantity;
-        });
-
-        document.querySelector('.js-cart-quantity').innerHTML = totalquantity;
-        console.log(totalquantity);
-        
-        console.log(cart);
-
-
-       // Change button text to "Added"
-       button.innerHTML = "Added";
-       button.classList.add("added-to-cart-button"); // Add a class for styling
-
-       // Display the "Added" message
-       const productContainer = button.closest('.product-container');
-       productContainer.querySelector('.js-added-to-cart').style.display = 'block';
-
-    //    Revert the button text to "Add to Cart" after 2 seconds
-    setTimeout(()=>{
-        button.innerHTML="Add to Cart";
-        button.classList.remove("added-to-cart-button");
-        productContainer.querySelector('.js-added-to-cart').style.display = 'none';
-    },1000);
+        addToCart(productId, selectedQuantity);
+        updateCartQuantity();
+        changeAddToCartButton(button);
     });
 });
-
-// document.querySelector('.js-').addEventListener('click',(event)=>{
-
-// })
-
-
-// function updateAddToCartButton(){
-//     const buttonE= document.querySelector('.js-add-to-cart');
-//     if(buttonE.innerHTML==='Add to cart'){
-//         buttonE.innerHTML='Added';
-//         buttonE.classList.add('added-to-cart');
-//     }else{
-//         buttonE.innerHTML='Add to cart';
-//         buttonE.classList.remove('added-to-cart');
-//     }
-

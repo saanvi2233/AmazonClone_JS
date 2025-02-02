@@ -26,64 +26,86 @@
 // ];
 
 // cart = [];
-import { cart, addToCart,updateCartQuantity,changeAddToCartButton } from '../data/cart.js'; 
-import { products } from '../data/products.js';
-import { formatCurrency } from './utils/money.js';
+import {cart, addToCart,changeAddToCartButton} from '../data/cart.js';
+import {products} from '../data/products.js';
+import {formatCurrency} from './utils/money.js';
 
-// Generate product HTML dynamically
-let productHTML = '';
+let productsHTML = '';
 
-products.forEach(product => {
-    const ratingImage = `images/ratings/rating-${Math.round(product.rating.stars * 10)}.png`;
+products.forEach((product) => {
+  productsHTML += `
+    <div class="product-container">
+      <div class="product-image-container">
+        <img class="product-image"
+          src="${product.image}">
+      </div>
 
-    productHTML += `
-        <div class="product-container">
-            <div class="product-image-container">
-                <img class="product-image" src="${product.image}" alt="${product.name}">
-            </div>
-            <div class="product-name limit-text-to-2-lines">${product.name}</div>
-            <div class="product-rating-container">
-                <img class="product-rating-stars" src="${ratingImage}" alt="${product.rating.stars} stars">
-                <div class="product-rating-count link-primary">${product.rating.count} reviews</div>
-            </div>
-            <div class="product-price">${formatCurrency(product.priceCents)}</div>
-            <div class="product-quantity-container">
-                <select class="js-quantity-selector" data-product-id="${product.id}">
-                    ${Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('')}
-                </select>
-            </div>
-            <div class="product-spacer"></div>
+      <div class="product-name limit-text-to-2-lines">
+        ${product.name}
+      </div>
+
+      <div class="product-rating-container">
+        <img class="product-rating-stars"
+          src="images/ratings/rating-${product.rating.stars * 10}.png">
+        <div class="product-rating-count link-primary">
+          ${product.rating.count}
+        </div>
+      </div>
+
+      <div class="product-price">
+        $${formatCurrency(product.priceCents)}
+      </div>
+
+      <div class="product-quantity-container">
+        <select>
+          <option selected value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+      </div>
+
+      <div class="product-spacer"></div>
+
+      <div class="product-spacer"></div>
             <div class="added-to-cart js-added-to-cart" style="display: none;">
                 <img src="images/icons/checkmark.png" alt="Added to Cart">
                 Added
             </div>
-            <button class="add-to-cart-button button-primary js-add-to-cart"  
-                data-product-id="${product.id}">
-                Add to Cart
-            </button>
-        </div>
-    `;
+
+      <button class="add-to-cart-button button-primary js-add-to-cart"
+      data-product-id="${product.id}">
+        Add to Cart
+      </button>
+    </div>
+  `;
 });
 
-// Inject products into the page
-const productsGrid = document.querySelector('.js-products-grid');
-if (productsGrid) {
-    productsGrid.innerHTML = productHTML;
-} else {
-    console.error('Element with class .js-products-grid not found');
+document.querySelector('.js-products-grid').innerHTML = productsHTML;
+
+function updateCartQuantity() {
+  let cartQuantity = 0;
+
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+
+  document.querySelector('.js-cart-quantity')
+    .innerHTML = cartQuantity;
 }
 
-
-
-// Add event listeners to all "Add to Cart" buttons
-document.querySelectorAll('.js-add-to-cart').forEach(button => {
+document.querySelectorAll('.js-add-to-cart')
+  .forEach((button) => {
     button.addEventListener('click', () => {
-        const productId = button.dataset.productId; 
-        const quantitySelector = document.querySelector(`.js-quantity-selector[data-product-id="${productId}"]`);
-        const selectedQuantity = Number(quantitySelector.value);
-
-        addToCart(productId, selectedQuantity);
-        updateCartQuantity();
-        changeAddToCartButton(button);
+      const productId = button.dataset.productId;
+      addToCart(productId);
+      updateCartQuantity();
+      changeAddToCartButton(button);
     });
-});
+  });

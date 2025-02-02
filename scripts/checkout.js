@@ -1,7 +1,7 @@
 // import { cart } from "./data/cart";
 // import { products } from "./data/products";
 
-const cart1 = [
+let cart1 = [
     {
       productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
       quantity: 2
@@ -12,6 +12,7 @@ const cart1 = [
     }
   ];
 //  import {cart as cart1} from '../data/cart.js';
+
   import { products  } from '../data/products.js';
   import { formatCurrency } from './utils/money.js';
 
@@ -47,7 +48,8 @@ cartsummaryHTML+=`<div class="cart-item-container">
                     <span class="update-quantity-link link-primary">
                       Update
                     </span>
-                    <span class="delete-quantity-link link-primary">
+                    <span class="delete-quantity-link link-primary
+                    js-delete-link" data-product-id="${matchingProduct.id}">
                       Delete
                     </span>
                   </div>
@@ -104,7 +106,23 @@ cartsummaryHTML+=`<div class="cart-item-container">
   
 
 });
+
 // generatin the html with js
 document.querySelector('.js-order-summary').innerHTML=cartsummaryHTML;
 
-console.log(cartsummaryHTML);
+// console.log(cartsummaryHTML);
+function removeFromCart(productId) {
+  // Filter out the product
+  cart1 = cart1.filter(item => item.productId !== productId);
+  console.log("Product removed from cart:", productId);
+}
+
+document.querySelectorAll('.js-delete-link').forEach((link) => {
+  link.addEventListener('click', () => {
+      const productId = link.dataset.productId; // Get product ID from data attribute
+      console.log("Deleting Product ID:", productId);
+      
+      removeFromCart(productId);  // Remove from cart
+      console.log("Updated Cart:", cart1); // Log updated cart
+  });
+});

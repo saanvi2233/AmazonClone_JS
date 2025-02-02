@@ -25,7 +25,8 @@ cart1.forEach((cartItem)=>{
     let matchingProduct = products.find((product) => product.id === productId); // Using find for easier matching
 //   console.log(matchingProduct);
     // Log matching product details
-cartsummaryHTML+=`<div class="cart-item-container">
+cartsummaryHTML+=`<div class="cart-item-container
+              js-cart-item-container-${matchingProduct.id}">
               <div class="delivery-date">
                 Delivery date: Tuesday, June 21
               </div>
@@ -124,5 +125,15 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
       
       removeFromCart(productId);  // Remove from cart
       console.log("Updated Cart:", cart1); // Log updated cart
+
+      // Use backticks (`) for template literals
+      const container = document.querySelector(`.js-cart-item-container-${productId}`);
+      
+      if (container) {
+          container.remove(); // Remove from UI
+          console.log("Container removed:", container);
+      } else {
+          console.log("Error: Container not found for Product ID:", productId);
+      }
   });
 });

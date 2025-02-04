@@ -68,3 +68,18 @@ export function changeAddToCartButton(button) {
         productContainer.querySelector('.js-added-to-cart').style.display = 'none';
     }, 1000);
 }
+
+
+export function updateDeliveryOption(productId, deliveryOptionId) {
+  let matchingItem;
+
+  cart.forEach((cartItem) => {
+    if (productId === cartItem.productId) {
+      matchingItem = cartItem;
+    }
+  });
+
+  matchingItem.deliveryOptionId = deliveryOptionId;
+
+  saveToStorage();
+}

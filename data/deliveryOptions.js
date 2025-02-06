@@ -23,3 +23,14 @@ export const deliveryOptions = [{
       
         return deliveryOption || deliveryOptions[0];
       }
+
+
+      // export function  getDeliveryOption(deliveryOptionId){
+      //   let deliveryOption;
+      //     deliveryOption.forEach((option) => {
+      //         if (option.id === deliveryOptionId) {
+      //             deliveryOption = option;
+      //         }
+      //     });
+      //     return deliveryOption || deliveryOptions[0];
+      // }

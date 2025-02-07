@@ -1,12 +1,13 @@
-
-// OOp approach
-const cart={
+// use pascal case for things that enerate objects
+// pascalCase=start every word with capital
+function Cart(localStorageKey){
+  const cart={
     cartItems:undefined,
     
     // function inside the method
     // this helps to give the outer object
     loadfromStorage(){
-        this.cartItems=JSON.parse(localStorage.getItem('cart-oop'));
+        this.cartItems=JSON.parse(localStorage.getItem(localStorageKey));
     if (!this.cartItems) {
         this.cartItems = [{
           productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
@@ -21,7 +22,7 @@ const cart={
     },
 
     saveToStorage:function() {
-      localStorage.setItem('cart-oop', JSON.stringify(this.cartItems));
+      localStorage.setItem(localStorageKey, JSON.stringify(this.cartItems));
     },
 
 
@@ -94,13 +95,24 @@ const cart={
 }
 
 };
+return cart;
+}
+
+const cart=Cart('cart-oop');
+const businessCart=Cart('cart-oop-business');
 cart.loadfromStorage();
-
-// adding something in the cart
-cart.addToCart('e43638ce-6aa0-4b85-b27f-e1d07eb678c6',2);
+businessCart.loadfromStorage();
 console.log(cart);
+console.log(businessCart);
 
- 
+
+// OOp approach
+
+// use the function to create multiple carts intsead of using the object literal again and again
+
+
+//  businessCart.loadfromStorage();
+//  console.log(businessCart);
 
 // if (!cart) {
 //   cart = [{

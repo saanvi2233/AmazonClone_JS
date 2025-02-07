@@ -102,8 +102,8 @@ const cart=Cart('cart-oop');
 const businessCart=Cart('cart-oop-business');
 cart.loadfromStorage();
 businessCart.loadfromStorage();
-console.log(cart);
-console.log(businessCart);
+// console.log(cart);
+// console.log(businessCart);
 
 
 // OOp approach

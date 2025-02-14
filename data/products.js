@@ -812,6 +812,8 @@ console.log(tshirt.getPrice)
   });
   */
 
+  // promises gives us two methods .then and .catch
+
   export let products = [];
   // using fetch, it uses promise for callback(.then)
   export function loadProductFetch(){
@@ -830,8 +832,12 @@ console.log(tshirt.getPrice)
          console.log('load products');
         //  funct();
     })
+    .catch((error)=>{
+      console.log('Unexpected error.Please try again later')
+    })
     return promise;
   }
+
   /*
   loadProductFetch().then(()=>{
 console.log('next step')
@@ -854,6 +860,13 @@ console.log('next step')
              funct();
           
       });
+
+      // error handling
+      xhr.addEventListener('error',()=>
+      {
+        console.log('Unexpected error.Please try again later')
+      })
+
       // after we will load it takes time to load so till than the page should
       // not be empty so we will here call the function till then 
   
@@ -862,5 +875,6 @@ console.log('next step')
       xhr.open('GET', 'https://supersimplebackend.dev/products'); // Use xhr.open() instead of xhr()
       xhr.send();
   }
+  // loadProduct()
   
   // loadProduct();

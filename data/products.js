@@ -825,7 +825,7 @@ console.log(tshirt.getPrice)
             return new Product(productDetails);
           });
 
-             console.log(products);
+            //  console.log(products);
              funct();
           
       });

@@ -144,6 +144,7 @@ console.log(tshirt.getPrice)
   obj3.method()
   */
 
+  /*
    export const products = [
     {
       id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -809,3 +810,32 @@ console.log(tshirt.getPrice)
     }
     return new Product(productDetails);
   });
+  */
+
+  export let products = [];
+
+  export function loadProduct(funct) {
+      const xhr = new XMLHttpRequest();
+  
+      xhr.addEventListener('load', () => {
+         products=JSON.parse(xhr.response).map((productDetails) => {
+            if (productDetails.type === 'clothing') {
+              return new Clothing(productDetails);
+            }
+            return new Product(productDetails);
+          });
+
+             console.log(products);
+             funct();
+          
+      });
+      // after we will load it takes time to load so till than the page should
+      // not be empty so we will here call the function till then 
+  
+      // 1st parameter - type of request
+      // 2nd parameter - URL
+      xhr.open('GET', 'https://supersimplebackend.dev/products'); // Use xhr.open() instead of xhr()
+      xhr.send();
+  }
+  
+  // loadProduct();

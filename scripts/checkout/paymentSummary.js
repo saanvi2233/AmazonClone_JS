@@ -2,7 +2,7 @@ import {cart} from '../../data/cart.js';
 import {getProduct} from '../../data/products.js';
 import {getDeliveryOption} from '../../data/deliveryOptions.js';
 import {formatCurrency} from '../utils/money.js';
-import { addOrder } from '../../data/orders.js';
+import {addOrder} from '../../data/orders.js';
 
 export function renderPaymentSummary() {
   let productPriceCents = 0;
@@ -19,7 +19,6 @@ export function renderPaymentSummary() {
   const totalBeforeTaxCents = productPriceCents + shippingPriceCents;
   const taxCents = totalBeforeTaxCents * 0.1;
   const totalCents = totalBeforeTaxCents + taxCents;
-  console.log(totalCents);
 
   const paymentSummaryHTML = `
     <div class="payment-summary-title">
@@ -61,7 +60,8 @@ export function renderPaymentSummary() {
       </div>
     </div>
 
-    <button class="place-order-button button-primary  js-place-order">
+    <button class="place-order-button button-primary
+      js-place-order">
       Place your order
     </button>
   `;
@@ -70,27 +70,27 @@ export function renderPaymentSummary() {
     .innerHTML = paymentSummaryHTML;
 
   document.querySelector('.js-place-order')
-  .addEventListener('click', async() => {
+    .addEventListener('click', async () => {
+      try {
+        const response = await fetch('https://supersimplebackend.dev/orders', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            cart: cart
+          })
+        });
 
-    try{
-      alert('Order placed!');
-      const response=await fetch('https://supersimplebackend.dev/orders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          cart:cart
-        }),
-      })
-      const order=await response.json();
-      addOrder(order);
-    }
-    catch(e){
-      console.error('Unexpected error:', e);
-    }
-   window.location.href = 'orders.html';
-  });
+        const order = await response.json();
+        addOrder(order);
+
+      } catch (error) {
+        console.log('Unexpected error. Try again later.');
+      }
+
+      window.location.href = 'orders.html';
+    });
 }
 
 // by using await we can save any function in an varaibale

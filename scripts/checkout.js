@@ -2,7 +2,7 @@ import {renderOrderSummary} from './checkout/orderSummary.js';
 import { renderPaymentSummary } from './checkout/paymentSummary.js';
 
 // import '../data/backend-practise.js'
-import { loadProduct } from '../data/products.js';
+import { loadProduct ,loadProductFetch} from '../data/products.js';
 import { loadCart } from '../data/cart.js';
 
 // import  '../data/cart-oop.js';
@@ -14,13 +14,7 @@ import { loadCart } from '../data/cart.js';
 
 // Using Promise.all to handle multiple asynchronous operations
 Promise.all([
-    new Promise((resolve) => {
-        // Load product asynchronously
-        loadProduct(() => {
-            console.log('product loaded');
-            resolve('value1');
-        });
-    }),
+    loadProductFetch(),
     new Promise((resolve) => {
         // Load cart asynchronously
         loadCart(() => {

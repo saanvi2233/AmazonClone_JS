@@ -813,6 +813,31 @@ console.log(tshirt.getPrice)
   */
 
   export let products = [];
+  // using fetch, it uses promise for callback(.then)
+  export function loadProductFetch(){
+    const promise=fetch('https://supersimplebackend.dev/products')
+    .then((respose)=>{
+      // console.log(respose);
+      return respose.json();
+    }).then((productsData)=>{
+      products=productsData.map((productDetails) => {
+        if (productDetails.type === 'clothing') {
+          return new Clothing(productDetails);
+        }
+        return new Product(productDetails);
+      });
+
+         console.log('load products');
+        //  funct();
+    })
+    return promise;
+  }
+  /*
+  loadProductFetch().then(()=>{
+console.log('next step')
+  });
+  */
+
 
   export function loadProduct(funct) {
       const xhr = new XMLHttpRequest();

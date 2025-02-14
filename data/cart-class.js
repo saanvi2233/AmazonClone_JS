@@ -3,7 +3,11 @@
 // more cleaner
 // class have extra features than OOp:
 // constructor=helps to run the setup code(runs automatically)
-// 
+// a class looks like the object it generated
+// extra feature than oop- contructor
+// class is a blueprint of object
+
+// property with hash in front can only be assed by the class(private property)
 
 class Cart {
     cartItems;

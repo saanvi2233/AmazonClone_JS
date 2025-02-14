@@ -5,15 +5,37 @@ import { renderPaymentSummary } from './checkout/paymentSummary.js';
 import { loadProduct ,loadProductFetch} from '../data/products.js';
 import { loadCart } from '../data/cart.js';
 
-// import  '../data/cart-oop.js';
-// import '../data/cart-class.js';
+// async return promises and await waits for the promise to resolve
+// await only used inside async functioon
+// makes code cleaner
+
+async function loadPage(){
+    console.log('load page');
+
+    await loadProductFetch();
+    const value=await new Promise((resolve) => {
+        // Load cart asynchronously
+        loadCart(() => {
+            console.log('cart loaded');
+            resolve();
+        });
+    })
+
+    renderOrderSummary();
+    renderPaymentSummary();
+
+    // thsi act as the resolve and act as a next step
+    // return 'value2async'
+}
+loadPage();
+
 
 // promise is a class in js-it runs the inner function immediately
 // resolve is a function which is called when promise is resolved.let us control whne to go next step
 // promise creates a new line of code that runs parallel to other(so that we can do multiple things at the smae time)
 
 // Using Promise.all to handle multiple asynchronous operations
-Promise.all([
+/*Promise.all([
     loadProductFetch(),
     new Promise((resolve) => {
         // Load cart asynchronously
@@ -30,7 +52,7 @@ Promise.all([
 });
 // .then as a next step to run
 // promise helps to avoid nesting
-
+*/
 /*
 new Promise((resolve)=>{
     // console.log('promise resolved')
